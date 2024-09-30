@@ -1,9 +1,7 @@
 import random
+from art import logo
 
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
-player_cards = []
-computer_cards = []
-game_over = False
 
 def draw_cards(card_list):
     return random.choice(card_list)
@@ -35,37 +33,61 @@ def compare_scores(p_score, c_score):
         return "Opponent has a higer score! You lose."
 
 
-for i in range (2):
-    player_cards.append(draw_cards(cards))
-    computer_cards.append(draw_cards(cards))
+def play_Black_Jack():
+    print(logo)
+    player_cards = []
+    computer_cards = []
+    game_over = False
 
-while not game_over:
+    for i in range (2):
+        player_cards.append(draw_cards(cards))
+        computer_cards.append(draw_cards(cards))
+        draws_counter = 0 
 
-    player_score = calculate_score(player_cards)
-    computer_score = calculate_score(computer_cards)
-    print(f"Your cards are: {player_cards} and your score is: {player_score}")
-    print(f"Opponent's first card is: {computer_cards[0]}")
+    while not game_over:
 
-    if player_score == 0 or computer_score == 0 or player_score > 21:
-        game_over = True
+        player_score = calculate_score(player_cards)
+        computer_score = calculate_score(computer_cards)
+        
+        print(f"Your cards are: {player_cards} and your score is: {player_score}")
+        print(f"Opponent's first card is: {computer_cards[0]} \n")
 
-    else:
-        player_input = input("Type 'y' to draw another card, type 'n' to pass: ").lower()
-
-        if player_input == "y":
-            player_cards.append(draw_cards(cards))
-        elif player_input == "n":
+        if player_score == 0 or computer_score == 0 or player_score > 21:
             game_over = True
 
+        else:
+            player_input = input("Type 'y' to draw another card, type 'n' to pass: ").lower()
 
-while computer_score != 0 and computer_score < 17:
-    computer_cards.append(draw_cards(cards))
-    computer_score = calculate_score(computer_cards)
+            if player_input == "y":
+                player_cards.append(draw_cards(cards))
+                draws_counter+=1
+            elif player_input == "n":
+                game_over = True
 
-print(f"Your cards are: {player_cards} and your score is: {player_score}")
-print(f"Opponent's cards are: {computer_cards} and opponent's score is: {computer_score}")
 
-result = compare_scores(player_score, computer_score)
-print(result)
+    while computer_score != 0 and computer_score < 17:
+        computer_cards.append(draw_cards(cards))
+        computer_score = calculate_score(computer_cards)
+
+    print(f"Your cards are: {player_cards} and your score is: {player_score}")
+    print(f"Opponent's cards are: {computer_cards} and opponent's score is: {computer_score} \n")
+
+    result = compare_scores(player_score, computer_score)
+    print(result)
+
+
+wants_to_play = True
+
+while wants_to_play:
+    player_decision  = input("Do you want to play a game of Black Jack? Type 'y' for yes and 'n' for no: ").lower()
+    print()
+    if player_decision == "n":
+        wants_to_play = False
+    else:
+        print("\n" * 20)
+        play_Black_Jack()
+
+
+
 
 
